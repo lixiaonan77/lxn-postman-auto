@@ -1,4 +1,4 @@
-name: Newman API Test
+name: Newman API Test CI/CD
 
 on:
   push:
@@ -7,15 +7,31 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  newman-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install Newman
         run: npm install -g newman
-      - name: Run API Tests
-        run: newman run your-collection.json -e your-environment.json
+
+      - name: Run API tests with Newman
+        run: |
+          newman run \
+            "collection.json" \
+            -e "environment.json" \
+            -r cli,html \
+            --reporter-html-export newman-report.html
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-test-report
+          path: newman-report.html
+        if: always()
