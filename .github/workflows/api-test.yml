@@ -20,6 +20,7 @@ jobs:
 
       - name: Install Newman
         run: npm install -g newman
+             npm install -g newman-reporter-html
 
       - name: Run API tests with Newman
         run: |
@@ -35,3 +36,5 @@ jobs:
           name: newman-test-report
           path: newman-report.html
         if: always()
+  
+        
