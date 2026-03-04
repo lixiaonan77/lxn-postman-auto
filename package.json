@@ -1,0 +1,17 @@
+{
+  "name": "postman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    
+    "test:api": "newman run collection.json -e environment.json -r htmlextra --reporter-htmlextra-export test-report.html",
+    "test:api:ci": "newman run collection.json -e environment.json --suppress-exit-code", 
+    "test:api:data": "npx newman run collection-csv.json -e environment.json -d test_data.csv -r htmlextra --reporter-htmlextra-export test-report-data.html",
+    "test:api:data:ci": "npx newman run collection-csv.json -e environment.json -d test_data.csv --suppress-exit-code"
+ },
+  "keywords": [],
+  "author": "lxn",
+  "license": "ISC",
+  "type": "commonjs"
+}
