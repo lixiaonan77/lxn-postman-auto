@@ -4,7 +4,7 @@
 	"values": [
 		{
 			"key": "base_url",
-			"value": "http://127.0.0.1:8080/api",
+			"value": "https://mock.apifox.com/m1/2983358-0-default/api/",
 			"type": "default",
 			"enabled": true
 		},

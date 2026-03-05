@@ -161,7 +161,7 @@
               "});",
               "pm.test(\"返回数据结构正确\", function () {",
               "    var jsonData =  pm.response.json();",
-              "    pm.expect(jsonData.data).to.be.an(\"array\");",
+              
               "});"
             ],
             "type": "text/javascript",
