@@ -1,0 +1,37 @@
+name: Postman API Test
+
+on:
+  push:
+    branches: [ main ]  # 触发分支，可根据需要修改
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # 使用稳定的 Node.js 版本
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman collection
+        run: |
+          newman run collection.json \
+            -e environment.json \
+            -r cli,json \
+            --reporter-json-export newman-report.json
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: newman-report.json
+        if: always()  # 无论测试成功还是失败，都上传报告
