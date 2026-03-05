@@ -4,19 +4,31 @@
 	"values": [
 		{
 			"key": "base_url",
-			"value": "https://apifoxmock.com/m1/2983358-0-default/api",
+			"value": "http://127.0.0.1:8080/api",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "access_token",
-			"value": "",
+			"value": "QpwL5tke4Pnpja7X4",
 			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "eve.holt@reqres.in",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "cityslicka",
+			"type": "default",
 			"enabled": true
 		}
 	],
 	"color": null,
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2026-03-05T03:41:52.823Z",
+	"_postman_exported_at": "2026-03-05T07:09:49.453Z",
 	"_postman_exported_using": "Postman/12.0.3"
 }

@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "7a185d82-7f96-478e-91ef-508519c13498",
-    "name": "collection",
+    "name": "ReqRes_Test_collection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "46795143"
   },
@@ -130,7 +130,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+          "raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -161,7 +161,7 @@
               "});",
               "pm.test(\"返回数据结构正确\", function () {",
               "    var jsonData =  pm.response.json();",
-              
+              "    //pm.expect(jsonData.data).to.be.an(\"json\");",
               "});"
             ],
             "type": "text/javascript",
