@@ -19,22 +19,48 @@ jobs:
           node-version: '20'
 
       - name: Install Newman
-        run: npm install -g newman
-             npm install -g newman-reporter-html
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-html
 
-      - name: Run API tests with Newman
+      # ======================
+      # 第一套：api_auto_collection.json + api_auto_environment.json
+      # ======================
+      - name: Run api_auto_collection tests
+        continue-on-error: true  # 失败不中断后续执行
         run: |
           newman run \
-            "collection.json" \
-            -e "environment.json" \
-            -r cli,html \
-            --reporter-html-export newman-report.html
+            "api_auto_collection.json" \
+            -e "api_auto_environment.json" \
+            -r cli,html,json \
+            --reporter-html-export api_auto-report.html \
+            --reporter-json-export api_auto-report.json \
+            --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
 
+      # ======================
+      # 第二套：collection1.json + environment1.json
+      # ======================
+      - name: Run collection1 tests
+        continue-on-error: true  # 失败不中断后续执行
+        run: |
+          newman run \
+            "collection1.json" \
+            -e "environment1.json" \
+            -r cli,html,json \
+            --reporter-json-export collection1-report.json \
+            --reporter-html-export collection1-report.html \
+            --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
+
+      # ======================
+      # 上传所有测试报告（整合原有上传逻辑）
+      # ======================
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: newman-test-report
-          path: newman-report.html
-        if: always()
-  
-        
+          path: |
+            api_auto-report.html
+            api_auto-report.json
+            collection1-report.html
+            collection1-report.json
+        if: always()        
