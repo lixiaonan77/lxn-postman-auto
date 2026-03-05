@@ -52,7 +52,7 @@ jobs:
             --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
       # 第三套：AI_test_collection.json + environment.json
       # ======================
-      - name: Run collection1 tests
+      - name: Run AI_test_collection tests
         continue-on-error: true  # 失败不中断后续执行
         run: |
           newman run \
