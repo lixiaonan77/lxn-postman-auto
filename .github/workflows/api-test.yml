@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
 
       - name: Install Newman
-        run: |
+        run: |  # 这里必须是单竖线 |，不是 ||
           npm install -g newman
           npm install -g newman-reporter-html
 
@@ -36,7 +36,7 @@ jobs:
             --reporter-html-export api_auto-report.html \
             --reporter-json-export api_auto-report.json \
             --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
-	    
+
       # ======================
       # 第二套：collection1.json + environment1.json
       # ======================
@@ -50,6 +50,7 @@ jobs:
             --reporter-json-export collection1-report.json \
             --reporter-html-export collection1-report.html \
             --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
+
       # ======================
       # 第三套：AI_test_collection.json + environment.json
       # ======================
@@ -62,10 +63,10 @@ jobs:
             -r cli,html,json \
             --reporter-json-export AI_test_collection-report.json \
             --reporter-html-export AI_test_collection-report.html \
-            --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"	    
-      # ======================
+            --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
 
-      # 上传所有测试报告（整合原有上传逻辑）
+      # ======================
+      # 上传所有测试报告
       # ======================
       - name: Upload test report
         uses: actions/upload-artifact@v4
