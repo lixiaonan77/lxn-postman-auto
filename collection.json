@@ -1,227 +1,30 @@
 {
   "info": {
-    "_postman_id": "03693345-1174-46fc-b9f8-320f80fc3092",
-    "name": "lxn",
+    "_postman_id": "7a185d82-7f96-478e-91ef-508519c13498",
+    "name": "collection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "46795143"
   },
   "item": [
     {
-      "name": "get",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "",
-              "var jsonDate = pm.response.json();",
-              "pm.collectionVariables.set(\"todold\",jsonDate.id)",
-              "if (pm.response.code === 200) {",
-              "    var jsonData = pm.response.json();",
-              "    //校验返回的JSON数据",
-              "pm.test(\"返回正确的JSON结构\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate).to.have.property(\"userId\");",
-              "pm.expect(jsonDate).to.have.property(\"id\");",
-              "pm.expect(jsonDate).to.have.property(\"title\");",
-              "pm.expect(jsonDate).to.have.property(\"completed\");",
-              "});",
-              "//校验字段类型和值",
-              "pm.test(\"userld为数字且等于1\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "    pm.expect(jsonDate.userId).to.eql(1);",
-              "pm.expect(jsonDate.userId).to.be.a(\"number\");",
-              "});",
-              "pm.test(\"id为数字且等于1\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate.id).to.eql(1);",
-              "pm.expect(jsonDate.id).to.be.a(\"number\");",
-              "});",
-              "pm.test(\"title为字符串是delectus aut autem\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate.title).to.eql(\"delectus aut autem\");",
-              "pm.expect(jsonDate.title).to.be.a(\"string\");",
-              "});",
-              "pm.test(\"completed是布尔值false\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate.completed).to.eql(false);",
-              "pm.expect(jsonDate.completed).to.be.a(\"boolean\");",
-              "",
-              "});",
-              "} ",
-              "// 处理 500 错误场景",
-              "else if (pm.response.code === 500) {",
-              "    var errorData = pm.response.json();",
-              "    pm.test(\"返回500错误\", function () {",
-              "        pm.expect(errorData.error).to.eql(\"Internal Server Error\");",
-              "    });",
-              "}"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/todos/1",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "todos",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "put",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "//校验状态码是200",
-              "pm.test(\"响应状态码为200\",function(){",
-              "    pm.response.to.have.status(200);",
-              "})",
-              "//校验返回的JSON数据",
-              "pm.test(\"返回正确的JSON结构\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate).to.have.property(\"userld\");",
-              "pm.expect(jsonDate).to.have.property(\"id\");",
-              "pm.expect(jsonDate).to.have.property(\"title\");",
-              "pm.expect(jsonDate).to.have.property(\"completed\");",
-              "});",
-              "//校验字段类型和值",
-              "pm.test(\"userld为数字且等于1\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "    pm.expect(jsonDate.userld).to.eql(1);",
-              "pm.expect(jsonDate.userld).to.be.a(\"number\");",
-              "});",
-              "pm.test(\"id为数字且等于1\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate.id).to.eql(1);",
-              "pm.expect(jsonDate.id).to.be.a(\"number\");",
-              "});",
-              "pm.test(\"title为字符串是delectus aut autem\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate.title).to.eql(\"修改后的标题\");",
-              "pm.expect(jsonDate.title).to.be.a(\"string\");",
-              "});",
-              "pm.test(\"completed是布尔值false\",function(){",
-              "    var jsonDate = pm.response.json();",
-              "pm.expect(jsonDate.completed).to.eql(true);",
-              "pm.expect(jsonDate.completed).to.be.a(\"boolean\");",
-              "",
-              "});",
-              "var jsonDate = pm.response.json();",
-              "pm.collectionVariables.set(\"todold\",jsonDate.id)",
-              ""
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\":\"修改后的标题\",\n    \"completed\":true,\n    \"userld\":1\n    }",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/todos/{{todold}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "todos",
-            "{{todold}}"
-          ]
-        },
-        "description": "提交数据"
-      },
-      "response": []
-    },
-    {
       "name": "post",
       "event": [
         {
-          "listen": "prerequest",
-          "script": {
-            "exec": [
-              "// 1. 生成随机 userId (1-10之间，强制转为数字类型)",
-              "var randomUserId = Number(Math.floor(Math.random() * 10) + 1);",
-              "// 2. 明确将变量存入「当前环境」（优先）或「全局环境」",
-              "pm.environment.set(\"randomUserId\", randomUserId); ",
-              "// 可选：同时存入全局环境，避免作用域问题",
-              "pm.globals.set(\"randomUserId\", randomUserId);",
-              "",
-              "// 3. 生成随机标题（字符串类型）",
-              "var randomTitle = \"Test Title \" + Math.random().toString(36).substring(2, 8);",
-              "pm.environment.set(\"randomTitle\", randomTitle);",
-              "pm.globals.set(\"randomTitle\", randomTitle);",
-              "",
-              "// 4. 生成随机正文",
-              "var randomBody = \"Test Body content: \" + new Date().toISOString();",
-              "pm.environment.set(\"randomBody\", randomBody);",
-              "pm.globals.set(\"randomBody\", randomBody);",
-              "",
-              "// 调试：打印变量值，方便排查（在Console里看）",
-              "console.log(\"生成的userId（数字）:\", randomUserId, typeof randomUserId);",
-              "console.log(\"环境变量里的userId:\", pm.environment.get(\"randomUserId\"), typeof pm.environment.get(\"randomUserId\"));"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        },
-        {
           "listen": "test",
           "script": {
             "exec": [
-              "// 校验响应状态码",
-              "pm.test(\"响应状态码为201\", function () {",
+              "// 1. 断言状态码为201（创建成功）",
+              "pm.test(\"创建帖子成功，状态码为201\", function() {",
               "    pm.response.to.have.status(201);",
               "});",
               "",
-              "// 校验返回的title与请求一致（增加兜底）",
-              "pm.test(\"返回的title与请求一致\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    // 先获取变量，没有则用空字符串兜底",
-              "    var requestTitle = pm.environment.get(\"randomTitle\") || pm.globals.get(\"randomTitle\") || \"\";",
-              "    pm.expect(jsonData.title).to.eql(requestTitle);",
+              "// 2. 断言响应包含我们提交的id和email字段",
+              "var jsonData = pm.response.json();",
+              "pm.test(\"响应包含提交的id\", function() {",
+              "    pm.expect(jsonData.id).to.eql(101); // 你提交的id是101",
               "});",
-              "",
-              "// 校验返回的userId与请求一致（核心修复：统一类型+兜底）",
-              "pm.test(\"返回的userld与请求一致\", function () {",
-              "    var jsonData = pm.response.json();",
-              "    // 1. 获取请求时的userId（优先环境变量，再全局，转数字）",
-              "    var requestUserId = Number(pm.environment.get(\"randomUserId\") || pm.globals.get(\"randomUserId\") || 0);",
-              "    // 2. 获取响应里的userId（确保是数字）",
-              "    var responseUserId = Number(jsonData.userld);",
-              "    // 3. 断言（增加日志，方便调试）",
-              "    console.log(\"请求userId:\", requestUserId, \"响应userId:\", responseUserId);",
-              "    pm.expect(responseUserId).to.eql(requestUserId);",
+              "pm.test(\"响应包含提交的email\", function() {",
+              "    pm.expect(jsonData.email).to.eql(\"eve.holt@reqres.in\");",
               "});"
             ],
             "type": "text/javascript",
@@ -232,10 +35,31 @@
       ],
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "type": "text"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip, deflate, br",
+            "type": "text"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "zh-CN,zh;q=0.9,en;q=0.8,en-US",
+            "type": "text"
+          }
+        ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"title\":\"{{randomTitle}}\",\n    \"body\":\"{{randomBody}}\",\n    \"userld\":{{randomUserId}}\n    }",
+          "raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -243,9 +67,12 @@
           }
         },
         "url": {
-          "raw": "{{baseUrl}}/posts",
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
           "host": [
-            "{{baseUrl}}"
+            "jsonplaceholder",
+            "typicode",
+            "com"
           ],
           "path": [
             "posts"
@@ -253,12 +80,120 @@
         }
       },
       "response": []
-    }
-  ],
-  "variable": [
+    },
     {
-      "key": "todold",
-      "value": ""
+      "name": "login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 先尝试解析响应，防止非JSON格式导致脚本报错",
+              "var jsonData = {};",
+              "try {",
+              "    jsonData = pm.response.json();",
+              "} catch (e) {",
+              "    pm.test(\"响应格式不是JSON，请检查接口地址\", function () {",
+              "        pm.expect.fail(\"接口返回了HTML，可能被防火墙拦截了\");",
+              "    });",
+              "}",
+              "",
+              "// 2. 断言状态码为200",
+              "pm.test(\"登录成功，状态码为200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// 3. 断言响应包含token字段",
+              "pm.test(\"响应包含token\", function () {",
+              "    pm.expect(jsonData.token).to.exist;",
+              "    console.log(\"获取到的Token是：\", jsonData.token); // 在控制台打印，方便你看",
+              "});",
+              "",
+              "// 4. 将token设置到环境变量中（关键步骤）",
+              "// 确保你右上角的环境是 \"ReqRes_Test\"",
+              "pm.environment.set(\"access_token\", jsonData.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"获取用户列表成功\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"返回数据结构正确\", function () {",
+              "    var jsonData =  pm.response.json();",
+              "    pm.expect(jsonData.data).to.be.an(\"array\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/user",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
