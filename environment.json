@@ -10,7 +10,7 @@
 		},
 		{
 			"key": "access_token",
-			"value": "QpwL5tke4Pnpja7X4",
+			"value": "",
 			"type": "any",
 			"enabled": true
 		},
@@ -29,6 +29,6 @@
 	],
 	"color": null,
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2026-03-05T07:09:49.453Z",
+	"_postman_exported_at": "2026-03-05T07:27:40.132Z",
 	"_postman_exported_using": "Postman/12.0.3"
 }
