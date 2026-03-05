@@ -1,0 +1,16 @@
+{
+	"id": "fbf560aa-0c42-4d31-b892-f59054728b8e",
+	"name": "API_AUTO_TESTEnvironment",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "https://jsonplaceholder.typicode.com",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-05T05:10:18.256Z",
+	"_postman_exported_using": "Postman/12.0.3"
+}

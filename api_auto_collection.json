@@ -1,0 +1,198 @@
+{
+  "info": {
+    "_postman_id": "4b8fab91-5b10-421f-9f4f-f119d0a5314f",
+    "name": "API_Auto_Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46795143"
+  },
+  "item": [
+    {
+      "name": "获取所有帖子",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              "",
+              "// 3. 字段存在",
+              "var json = pm.response.json();",
+              "pm.expect(json).to.have.property(\"id\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "获取单个帖子",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"test\",\n  \"body\": \"test content\",\n  \"userId\": 1}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/posts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "创建帖子",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"test\",\n  \"body\": \"test content\",\n  \"userId\": 1}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/posts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "修改帖子",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              "",
+              "// 3. 字段存在",
+              "var json = pm.response.json();",
+              "pm.expect(json).to.have.property(\"id\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "删除帖子",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
