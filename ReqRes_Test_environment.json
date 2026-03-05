@@ -1,0 +1,22 @@
+{
+	"id": "d975774d-f904-4e12-99bd-5975ff8f0b32",
+	"name": "ReqRes_Test",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "https://mock.apifox.com/m1/2983358-0-default/api/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-05T03:41:52.823Z",
+	"_postman_exported_using": "Postman/12.0.3"
+}

@@ -1,31 +1,27 @@
 {
   "info": {
-    "_postman_id": "7a185d82-7f96-478e-91ef-508519c13498",
-    "name": "collection",
+    "_postman_id": "4b8fab91-5b10-421f-9f4f-f119d0a5314f",
+    "name": "API_Auto_Test",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "46795143"
   },
   "item": [
     {
-      "name": "post",
+      "name": "获取所有帖子",
       "event": [
         {
           "listen": "test",
           "script": {
             "exec": [
-              "// 1. 断言状态码为201（创建成功）",
-              "pm.test(\"创建帖子成功，状态码为201\", function() {",
-              "    pm.response.to.have.status(201);",
-              "});",
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
               "",
-              "// 2. 断言响应包含我们提交的id和email字段",
-              "var jsonData = pm.response.json();",
-              "pm.test(\"响应包含提交的id\", function() {",
-              "    pm.expect(jsonData.id).to.eql(101); // 你提交的id是101",
-              "});",
-              "pm.test(\"响应包含提交的email\", function() {",
-              "    pm.expect(jsonData.email).to.eql(\"eve.holt@reqres.in\");",
-              "});"
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              "",
+              "// 3. 字段存在",
+              "var json = pm.response.json();",
+              "pm.expect(json).to.have.property(\"id\");"
             ],
             "type": "text/javascript",
             "packages": {},
@@ -34,32 +30,50 @@
         }
       ],
       "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          },
-          {
-            "key": "User-Agent",
-            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "type": "text"
-          },
-          {
-            "key": "Accept-Encoding",
-            "value": "gzip, deflate, br",
-            "type": "text"
-          },
-          {
-            "key": "Accept-Language",
-            "value": "zh-CN,zh;q=0.9,en;q=0.8,en-US",
-            "type": "text"
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "获取单个帖子",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
           }
-        ],
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+          "raw": "{\n  \"title\": \"test\",\n  \"body\": \"test content\",\n  \"userId\": 1}",
           "options": {
             "raw": {
               "language": "json"
@@ -67,12 +81,9 @@
           }
         },
         "url": {
-          "raw": "https://jsonplaceholder.typicode.com/posts",
-          "protocol": "https",
+          "raw": "{{base_url}}/posts",
           "host": [
-            "jsonplaceholder",
-            "typicode",
-            "com"
+            "{{base_url}}"
           ],
           "path": [
             "posts"
@@ -82,55 +93,13 @@
       "response": []
     },
     {
-      "name": "login",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "// 1. 先尝试解析响应，防止非JSON格式导致脚本报错",
-              "var jsonData = {};",
-              "try {",
-              "    jsonData = pm.response.json();",
-              "} catch (e) {",
-              "    pm.test(\"响应格式不是JSON，请检查接口地址\", function () {",
-              "        pm.expect.fail(\"接口返回了HTML，可能被防火墙拦截了\");",
-              "    });",
-              "}",
-              "",
-              "// 2. 断言状态码为200",
-              "pm.test(\"登录成功，状态码为200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "// 3. 断言响应包含token字段",
-              "pm.test(\"响应包含token\", function () {",
-              "    pm.expect(jsonData.token).to.exist;",
-              "    console.log(\"获取到的Token是：\", jsonData.token); // 在控制台打印，方便你看",
-              "});",
-              "",
-              "// 4. 将token设置到环境变量中（关键步骤）",
-              "// 确保你右上角的环境是 \"ReqRes_Test\"",
-              "pm.environment.set(\"access_token\", jsonData.token);"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
+      "name": "创建帖子",
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
+        "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+          "raw": "{\n  \"title\": \"test\",\n  \"body\": \"test content\",\n  \"userId\": 1}",
           "options": {
             "raw": {
               "language": "json"
@@ -138,31 +107,30 @@
           }
         },
         "url": {
-          "raw": "{{base_url}}/login",
+          "raw": "{{base_url}}posts",
           "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "login"
+            "{{base_url}}posts"
           ]
         }
       },
       "response": []
     },
     {
-      "name": "get",
+      "name": "修改帖子",
       "event": [
         {
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"获取用户列表成功\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "pm.test(\"返回数据结构正确\", function () {",
-              "    var jsonData =  pm.response.json();",
-              
-              "});"
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              "",
+              "// 3. 字段存在",
+              "var json = pm.response.json();",
+              "pm.expect(json).to.have.property(\"id\");"
             ],
             "type": "text/javascript",
             "packages": {},
@@ -171,25 +139,52 @@
         }
       ],
       "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
+        "method": "PUT",
         "header": [],
         "url": {
-          "raw": "{{base_url}}/user",
+          "raw": "{{base_url}}/posts/1",
           "host": [
             "{{base_url}}"
           ],
           "path": [
-            "user"
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "删除帖子",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 状态码 200/201",
+              "pm.response.to.have.status(200);",
+              "",
+              "// 2. 返回是 JSON",
+              "pm.response.to.be.json;",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}posts/1",
+          "host": [
+            "{{base_url}}posts"
+          ],
+          "path": [
+            "1"
           ]
         }
       },
