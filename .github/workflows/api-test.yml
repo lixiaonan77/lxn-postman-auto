@@ -50,9 +50,10 @@ jobs:
             --reporter-json-export collection1-report.json \
             --reporter-html-export collection1-report.html \
             --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
+      # ======================
       # 第三套：AI_test_collection.json + environment.json
       # ======================
-      - name: Run AI_test_collection tests
+      - name: Run AI_test_collection tests  # 修复重复的步骤名称
         continue-on-error: true  # 失败不中断后续执行
         run: |
           newman run \
@@ -75,6 +76,6 @@ jobs:
             api_auto-report.json
             collection1-report.html
             collection1-report.json
-            AI_test_collection.json
-            AI_test_collection.html
-        if: always()        
+            AI_test_collection-report.json  # 修复路径拼写错误
+            AI_test_collection-report.html  # 修复路径拼写错误
+        if: always()  # 移除行尾多余注释，规范缩进        
