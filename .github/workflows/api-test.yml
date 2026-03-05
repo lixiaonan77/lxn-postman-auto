@@ -50,8 +50,20 @@ jobs:
             --reporter-json-export collection1-report.json \
             --reporter-html-export collection1-report.html \
             --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"
-	    
+      # 第三套：AI_test_collection.json + environment.json
       # ======================
+      - name: Run collection1 tests
+        continue-on-error: true  # 失败不中断后续执行
+        run: |
+          newman run \
+            "AI_test_collection.json" \
+            -e "environment.json" \
+            -r cli,html,json \
+            --reporter-json-export AI_test_collection-report.json \
+            --reporter-html-export AI_test_collection-report.html \
+            --env-var "access_token=${{ secrets.ACCESS_TOKEN }}"	    
+      # ======================
+
       # 上传所有测试报告（整合原有上传逻辑）
       # ======================
       - name: Upload test report
@@ -63,4 +75,6 @@ jobs:
             api_auto-report.json
             collection1-report.html
             collection1-report.json
+            AI_test_collection.json
+            AI_test_collection.html
         if: always()        

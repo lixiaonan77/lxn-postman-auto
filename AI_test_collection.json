@@ -1,0 +1,478 @@
+{
+  "info": {
+    "_postman_id": "7a185d82-7f96-478e-91ef-508519c13498",
+    "name": "ReqRes_Test_collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46795143"
+  },
+  "item": [
+    {
+      "name": "post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 断言状态码为201（创建成功）",
+              "pm.test(\"创建帖子成功，状态码为201\", function() {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// 2. 断言响应包含我们提交的id和email字段",
+              "var jsonData = pm.response.json();",
+              "pm.test(\"响应包含提交的id\", function() {",
+              "    pm.expect(jsonData.id).to.eql(101); // 你提交的id是101",
+              "});",
+              "pm.test(\"响应包含提交的email\", function() {",
+              "    pm.expect(jsonData.email).to.eql(\"eve.holt@reqres.in\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "type": "text"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip, deflate, br",
+            "type": "text"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "zh-CN,zh;q=0.9,en;q=0.8,en-US",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "用户名密码正确，登录成功",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 先尝试解析响应，防止非JSON格式导致脚本报错",
+              "var jsonData = {};",
+              "try {",
+              "    jsonData = pm.response.json();",
+              "} catch (e) {",
+              "    pm.test(\"响应格式不是JSON，请检查接口地址\", function () {",
+              "        pm.expect.fail(\"接口返回了HTML，可能被防火墙拦截了\");",
+              "    });",
+              "}",
+              "",
+              "// 2. 断言状态码为200",
+              "pm.test(\"登录成功，状态码为200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// 3. 断言响应包含token字段",
+              "pm.test(\"响应包含token\", function () {",
+              "    pm.expect(jsonData.token).to.exist;",
+              "    console.log(\"获取到的Token是：\", jsonData.token); // 在控制台打印，方便你看",
+              "});",
+              "",
+              "// 4. 将token设置到环境变量中（关键步骤）",
+              "// 确保你右上角的环境是 \"ReqRes_Test\"",
+              "pm.environment.set(\"access_token\", jsonData.token);",
+              "// 基础断言",
+              "pm.test(\"状态码为200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"返回数据不为空\", function () {",
+              "  pm.response.json();",
+              "});",
+              "",
+              "// 高级断言1：接口速度",
+              "pm.test(\"接口响应时间小于500ms\", function () {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "",
+              "// 高级断言2：字段必须存在",
+              "",
+              "pm.test(\"返回包含data\", function () {",
+              "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+              "});",
+              "",
+              "// 高级断言3：业务成功",
+              "//pm.test(\"业务执行成功\", function () {",
+              "//  pm.expect(pm.response.json().code).to.eql(200);",
+              "//});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        },
+        "description": "接口地址：[http://127.0.0.1:8080/api/login](http://127.0.0.1:8080/api/login)  \n请求方式：POST  \n请求参数：  \nemail：用户名（必填，长度 2~~20）~~\n\n~~password：密码（必填，长度 6~~20）  \n一、正向用例（成功场景）  \n用例编号：LOGIN_001  \n用例标题：用户名密码正确，登录成功  \nURL：{{baseUrl}}/login  \n请求方式：POST  \n请求参数：  \nemail：{{email}}  \npassword：{{password}}  \n场景：正向用例  \n测试场景：合法用户正常登录  \n预期结果：  \nHTTP 状态码：200  \n业务 code：200 / 成功  \n返回 token"
+      },
+      "response": []
+    },
+    {
+      "name": "get",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"获取用户列表成功\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"返回数据结构正确\", function () {",
+              "    var jsonData =  pm.response.json();",
+              "    //pm.expect(jsonData.data).to.be.an(\"json\");",
+              "});",
+              "// 高级断言1：接口速度",
+              "pm.test(\"接口响应时间小于500ms\", function () {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "",
+              "// 高级断言2：字段必须存在",
+              "pm.test(\"返回包含email\", function () {",
+              "  pm.expect(pm.response.json()).to.have.property(\"email\");",
+              "});",
+              "",
+              "pm.test(\"返回包含name\", function () {",
+              "  pm.expect(pm.response.json()).to.have.property(\"name\");",
+              "});",
+              "",
+              "// 高级断言3：业务成功",
+              "pm.test(\"业务执行成功\", function () {",
+              "  pm.expect(pm.response.json().name).to.eql(\"Eve Holt\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/user",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "用户名不传",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"状态码为400\", function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"返回数据不为空\", function () {",
+              "  pm.response.json();",
+              "});",
+              "pm.test(\"返回包含error\", function () {",
+              "  pm.expect(pm.response.json()).to.have.property(\"error\");",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"\",\n    \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        },
+        "description": "## 二、异常用例（必填项校验）\n\n2.1 用户名不传\n\n- 用例编号：LOGIN_002\n    \n- 场景：异常用例・必填项缺失\n    \n- 参数：email 为空，password 正确\n    \n- 预期结果：400 / 提示 “用户名不能为空”\n    \n\n2.2 密码不传\n\n- 用例编号：LOGIN_003\n    \n- 场景：异常用例・必填项缺失\n    \n- 参数：email 正确，password 为空\n    \n- 预期结果：400 / 提示 “密码不能为空”"
+      },
+      "response": []
+    },
+    {
+      "name": "密码不传",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        },
+        "description": "## 二、异常用例（必填项校验）\n\n2.2 密码不传\n\n- 用例编号：LOGIN_003\n    \n- 场景：异常用例・必填项缺失\n    \n- 参数：email 正确，password 为空\n    \n- 预期结果：400 / 提示 “密码不能为空”"
+      },
+      "response": []
+    },
+    {
+      "name": "用户名字符长度 等于最小长度 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. 先尝试解析响应，防止非JSON格式导致脚本报错",
+              "var jsonData = {};",
+              "try {",
+              "    jsonData = pm.response.json();",
+              "} catch (e) {",
+              "    pm.test(\"响应格式不是JSON，请检查接口地址\", function () {",
+              "        pm.expect.fail(\"接口返回了HTML，可能被防火墙拦截了\");",
+              "    });",
+              "}",
+              "",
+              "// 2. 断言状态码为200",
+              "pm.test(\"登录成功，状态码为200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// 3. 断言响应包含token字段",
+              "pm.test(\"响应包含token\", function () {",
+              "    pm.expect(jsonData.token).to.exist;",
+              "    console.log(\"获取到的Token是：\", jsonData.token); // 在控制台打印，方便你看",
+              "});",
+              "",
+              "// 4. 将token设置到环境变量中（关键步骤）",
+              "// 确保你右上角的环境是 \"ReqRes_Test\"",
+              "pm.environment.set(\"access_token\", jsonData.token);",
+              "// 基础断言",
+              "pm.test(\"状态码为200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"返回数据不为空\", function () {",
+              "  pm.response.json();",
+              "});",
+              "",
+              "// 高级断言1：接口速度",
+              "pm.test(\"接口响应时间小于500ms\", function () {",
+              "  pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "",
+              "// 高级断言2：字段必须存在",
+              "",
+              "pm.test(\"返回包含data\", function () {",
+              "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+              "  //pm.expect(jsonData.data.token).to.have.lengthOf(17);",
+              "});",
+              "",
+              "// 高级断言3：业务成功",
+              "//pm.test(\"业务执行成功\", function () {",
+              "//  pm.expect(pm.response.json().code).to.eql(200);",
+              "//});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        },
+        "description": "## 三、边界值用例（长度校验）\n\n3.1 用户名字符长度 **等于最小长度 2**\n\n- 用例编号：LOGIN_004\n    \n- 场景：边界值用例\n    \n- 参数：username=\"ab\"\n    \n- 预期结果：成功或合法校验通过\n    \n\n3.2 用户名字符长度 **小于最小长度 1**\n\n- 用例编号：LOGIN_005\n    \n- 场景：异常用例・长度不合法\n    \n- 参数：username=\"a\"\n    \n- 预期结果：400 / 提示长度错误\n    \n\n3.3 密码长度 **等于最小 6**\n\n- 用例编号：LOGIN_006\n    \n- 场景：边界值用例\n    \n- 参数：password=\"123456\"\n    \n- 预期结果：合法\n    \n\n3.4 密码长度 **小于 6**\n\n- 用例编号：LOGIN_007\n    \n- 场景：异常用例・长度非法\n    \n- 参数：password=\"12345\"\n    \n- 预期结果：400"
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"长度不合法返回400\", function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.test(\"返回包含data\", function () {",
+              "  //pm.expect(jsonData.error).to.eql(\"Invalid credentials\");",
+              "  pm.expect(jsonData.error).to.include(\"Invalid credentials\");",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"e\",\n    \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        },
+        "description": "3.2 用户名字符长度 **小于最小长度 1**\n\n- 用例编号：LOGIN_005\n    \n- 场景：异常用例・长度不合法\n    \n- 参数：username=\"a\"\n    \n- 预期结果：400 / 提示长度错误"
+      },
+      "response": []
+    }
+  ]
+}
