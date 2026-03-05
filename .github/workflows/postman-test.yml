@@ -27,8 +27,8 @@ jobs:
           newman run collection.json \
             -e environment.json \
             -r cli,json \
-            --reporter-json-export newman-report.json
-	    --env-var "token=${{ secrets. ACCESS_TOKEN }}"
+            --reporter-json-export newman-report.json \
+            --env-var "token=${{ secrets.ACCESS_TOKEN }}"
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
